@@ -142,7 +142,3 @@ Can find spell problem and grammar problem, can locate the problem word give at 
     Anqi Guo: Unit Test and System Test,Design of checker, translate, speech-to-text
     Mengting Song: Android APP, Design of checker, document
     Qingxing Li: Design and implement of Checker, document
-
-## JIRA Link:
-
-https://agile.bu.edu/jira/secure/RapidBoard.jspa?rapidView=16&projectKey=GROUP4&view=planning.nodetail
