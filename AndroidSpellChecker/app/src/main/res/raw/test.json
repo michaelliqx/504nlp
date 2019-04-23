@@ -1,0 +1,20 @@
+{
+  "text": "I {0} writing a Java {1}.",
+  "check": [
+    {
+      "placeHolder": "{0}",
+      "target": "is",
+      "suggestion": [
+        "am",
+        "was"
+      ]
+    },
+    {
+      "placeHolder": "{1}",
+      "target": "prject",
+      "suggestion": [
+        "project"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+pre-conditions:
+JAVA 1.8
+
+Support Files:
+    1.install redis
+        $ wget http://download.redis.io/releases/redis-5.0.3.tar.gz
+        $ tar xzf redis-5.0.3.tar.gz
+        $ cd redis-5.0.3
+        $ make
+
+        $ cd src
+        $ ./redis-server
+
+        $ cd src
+        $ ./redis-server ../redis.conf
+
+        test if install redis successfully:
+        open another terminal, input:
+        $ redis-cli
+        $ get SUM
+
+        if the result is not (nil), it means you are success.
+
+
+    2.set environment file for speech-to-text and translate
+        download the google's json file and set it as the environment variables, the name is "GOOGLE_APPLICATION_CREDENTIAL"
+
+
+    3.install npm&nodejs(for web)
+        linux:
+        # wget https://nodejs.org/dist/v10.9.0/node-v10.9.0-linux-x64.tar.xz
+        # tar xf  node-v10.9.0-linux-x64.tar.xz
+        # cd node-v10.9.0-linux-x64/
+        # ./bin/node -v
+        ln -s /usr/software/nodejs/bin/npm   /usr/local/bin/
+        ln -s /usr/software/nodejs/bin/node   /usr/local/bin/
+
+        Ubuntu:
+        sudo apt-get install nodejs
+        sudo apt-get install npm
+
+        Mac:brew install node
+
+    4.install Android Studio(for Android)
+
+    5.install sox(for speech-to-text)
+    Mac:
+        https://brewinstall.org/Install-sox-on-Mac-with-Brew/
+    Linux:
+    wget http://repository.it4i.cz/mirrors/repoforge/redhat/el6/en/x86_64/rpmforge/RPMS/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
+    rpm -ivh rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm
+    yum install gcc-c++ libmad libmad-devel libid3tag libid3tag-devel lame lame-devel flac-devel libvorbis-devel
+    wget https://nchc.dl.sourceforge.net/project/sox/sox/14.4.2/sox-14.4.2.tar.gz
+    tar -xvzf sox-14.4.2.tar.gz
+    cd sox-14.4.2
+    ./configure
+    make -s
+    make install
+    cd /root/Desktop/
+    ll
+        
+
+How to use our program:
+    one lab machine, because of the permission, may be you cannot run web, speech-to-text, translate.
+    1. folder API: this is the backend of UI, you can run it, but we cannot run the frontend on lab machine.
+    2. folder CommandLine: a)you could run it in IntelliJ, CommandLineApplication is the main program.
+                             you need to make sure pom.xml file is blue, if it's red, you can right click it, and add it to a maven project
+                             and make the program arguments testfile.txt, you can change the content of it.
+                             and make sure you have installed redis.
+                           b）run in terminal: (make sure you have installed redis)
+                                redis-server redis.conf
+                                cd CommandLine
+                                java -jar CommandLine.jar testfile.txt
+
+    3.compress: run CompressApplication.java under folder compress. make sure you have installed redis
+    4.crawler: 
+        Please edit the download path in each main function before running every program.
+
+        - TextCrawler: it is a maven project
+        a) unzip the textCrawler.zip,
+        b) open the webmagic file with IntelliJ,
+        c) run textCrawler.java or AmazonCrawler.java or SinaBlogCrawler.java with run edit configuration. (Note: uncomment code ".addPipiline(new FilePipeline("path")) to do data persistency")
+
+        - Picture_Crawler: it is a java project
+        a) open the picture_crawler file with InstallJ
+        b) run the MyPictureCrawler.java with run edit configuration.
+
+        - RabbitMQ: I implement the textCrawler with this message queue. It is not required but if        
+        you would like to try more functionality, you can uncomment the code ".addPipeline      
+        (new RabbitPipeline)" in the main function of textCrawler.java. Before doing so,        
+        please download the RabbitMQ, tutorial for linux: https://www.rabbitmq.com/install-debian.html          
+        then start the rabbitMQ server and create a new queue called "gutenberg" on         
+        website http://127.0.0.1:15672 Finally, run the textCrawler.java and crawled data       
+        would be pushed to this "gutenbeg" queue.
+
+	5. Android Client：this is an adroind app
+    	1. Use IDE to open the folder API. 
+        2. Run the API at backend.
+        3. Use Android Studio to open folder AndroidSpellChecker.
+        	- Open "AVD Manager" under "tools". Download the "Nexus 5X API 27" emulator.
+            - Build the project.
+            - Manualy change the computer IP address to that of the computer which is running the API project.
+            - Run on the emulator.
+
+Testing part:
+    Unit test: you can find test file under folder test, and there are some test case here.
+
+    System test:
+    We apply the test of comparing our program with other online checker.
+    in /API/src/main/java/demo/test or CommandLine/src/main/java/demo/test  is the test file, you may add a testcase in CorrectorApplication.java or CommandLineApplication.java
+
