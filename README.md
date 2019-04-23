@@ -34,35 +34,35 @@ Can find spell problem and grammar problem, can locate the problem word give at 
 
 ### Implement:
 
-1. modify the input to a long string, and separate them to sentences.
+      1. modify the input to a long string, and separate them to sentences.
 
-2. check whether the combination(prew+current) of words exist in our WordMap(Dictionary), which contains the word and words combinations if we have this combination in WordMap, move prew and current to next word(index+1 at the same time) if we don't have this combination, we think there is a mistake.
-   (1) First, we check whether this is a spell mistake, check if the current word exist in WordMap(why not check prew, because prew will be checked in last iteration，we could reduce the computation this way).
-   if it doesn't exist, generate similar words according to edit distance(mostly 1 or 2).
-   search the WordMap to calculate the probability. return the result with highest 5 probability
-   (2) Second, if it's not a spell problem, we will think it's a grammar problem. for a grammar problem, we will:
-   a) check words have edit distance 1 or 2 with the word
-   b) check the sublist of prew and current's sublist, calculate the probability.
-   c) sort the result list and return the first 5 result
+      2. check whether the combination(prew+current) of words exist in our WordMap(Dictionary), which contains the word and words combinations if we have this combination in WordMap, move prew and current to next word(index+1 at the same time) if we don't have this combination, we think there is a mistake.
+         (1) First, we check whether this is a spell mistake, check if the current word exist in WordMap(why not check prew, because prew will be checked in last iteration，we could reduce the computation this way).
+         if it doesn't exist, generate similar words according to edit distance(mostly 1 or 2).
+         search the WordMap to calculate the probability. return the result with highest 5 probability
+         (2) Second, if it's not a spell problem, we will think it's a grammar problem. for a grammar problem, we will:
+         a) check words have edit distance 1 or 2 with the word
+         b) check the sublist of prew and current's sublist, calculate the probability.
+         c) sort the result list and return the first 5 result
 
 ### How we optimize:
 
 #### Speed:
 
-1. WordMap stored data like: [I:[like:100,love:200,am:300,...],like:[you:200,him:400,...]...], so when we check
-   whether a word exist, we just need to check the highest level, and to check the combination, we just need to check
-   the sublist of preword's sublist, which can make the searching faster (in our latest database, "i" have sublist of length 10k, and we have 100k different prewords, so if we don't do this, it will take too much time to search)
-2. We use the redis database, use the key-value structure to store the data, and can search an index from a million key-value within 4 ms
-3. when generate word with certain edit distance, we will limit the length of word, if a word is too long,
-   it will be much slower to verify all these combinations
-4. once we checked a word, we will think it's correct, and do not repeat the check to save some time.
+      1. WordMap stored data like: [I:[like:100,love:200,am:300,...],like:[you:200,him:400,...]...], so when we check
+         whether a word exist, we just need to check the highest level, and to check the combination, we just need to check
+         the sublist of preword's sublist, which can make the searching faster (in our latest database, "i" have sublist of length 10k, and we have 100k different prewords, so if we don't do this, it will take too much time to search)
+      2. We use the redis database, use the key-value structure to store the data, and can search an index from a million key-value within 4 ms
+      3. when generate word with certain edit distance, we will limit the length of word, if a word is too long,
+         it will be much slower to verify all these combinations
+      4. once we checked a word, we will think it's correct, and do not repeat the check to save some time.
 
 #### correctness:
 
-1.check edit distance even for a grammar problem, and when giving suggestions, put them to the top of the suggestion list.
-2.we will not give a certain answer, but let the user to decide what is they want. we just give the highest probability
-3.when building the WordMap, we craw the data from different kind of website, to make it more variable, and at the same time,
-try not to craw oral english but some official english. which improve the quality of our database.
+      1.check edit distance even for a grammar problem, and when giving suggestions, put them to the top of the suggestion list.
+      2.we will not give a certain answer, but let the user to decide what is they want. we just give the highest probability
+      3.when building the WordMap, we craw the data from different kind of website, to make it more variable, and at the same time,
+      try not to craw oral english but some official english. which improve the quality of our database.
 
 #### What we have implemented:
 
