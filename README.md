@@ -14,15 +14,11 @@ Group4
 
 ## Members:
 
-Mengting Song：mtsong@bu.edu
-
-Zhizhou Qiu：qzhizhou@bu.edu
-
-Yuhang Miao：miaoyh@bu.edu
-
-Anqi Guo：anqiguo@bu.edu
-
-Qingxing Li: lqx1996@bu.edu
+Mengting Song
+Zhizhou Qiu
+Yuhang Miao
+Anqi Guo
+Qingxing Li
 
 ## Checker:
 
